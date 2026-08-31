@@ -1,29 +1,140 @@
-:root {
-  --gold: #d4a574;
-  --gold-bright: #f3d4a7;
-  --gold-soft: #e8c9a4;
-  --champagne: #f8e8d0;
-  --cream: #f4e8d6;
-  --ink: #1a120c;
-  --night: #0d0907;
-  --wine: #5b1f33;
-  --wine-deep: #2d101d;
-  --rose: #b85c72;
-  --blush: #f0aab8;
-  --surface: rgba(36, 19, 19, 0.76);
-  --surface-strong: rgba(24, 12, 12, 0.93);
-  --line: rgba(232, 201, 164, 0.28);
-  --line-bright: rgba(248, 232, 208, 0.5);
-  --shadow-deep: 0 2rem 6rem rgba(0, 0, 0, 0.52);
-  --shadow-card: 0 1rem 3rem rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(212, 165, 116, 0.2);
-  --shadow-glow: 0 0 3rem rgba(184, 92, 114, 0.2);
-  --font-si: "Noto Serif Sinhala", "Noto Sans Sinhala", serif;
-  --font-si-ui: "Noto Sans Sinhala", sans-serif;
-  --font-en: "Cormorant Garamond", "Times New Roman", serif;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --nav-height: 4.8rem;
-  --pager-height: 4.8rem;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Effects -->
+  <div class="orbs">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+  <div class="hearts"></div>
+
+  <!-- Gate / Password Screen -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Welcome</h2>
+      <p class="gate-copy">Enter the password to continue</p>
+      <form class="gate-form" id="gate-form">
+        <label for="gate-pass">Password</label>
+        <input type="password" id="gate-pass" placeholder="Enter password" required>
+        <p class="gate-hint">Hint: Name of a dear friend</p>
+        <p class="gate-error" id="gate-error"></p>
+        <button type="submit" class="btn-3d">Enter</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-mark">Story</div>
+    <div class="nav-links">
+      <button data-goto="0" aria-label="Open story chapter 1">1</button>
+      <button data-goto="1" aria-label="Open story chapter 2">2</button>
+      <button data-goto="2" aria-label="Open story chapter 3">3</button>
+      <button data-goto="3" aria-label="Open story chapter 4">4</button>
+      <button data-goto="4" aria-label="Open story chapter 5">5</button>
+      <button data-goto="5" aria-label="Open story chapter 6">6</button>
+    </div>
+  </nav>
+
+  <!-- Book Container -->
+  <div class="book">
+    <!-- Page 1 -->
+    <div class="page page--hero is-active">
+      <img src="https://via.placeholder.com/800x600" alt="Cover" class="hero-img">
+      <div class="hero-shade"></div>
+      <div class="hero-copy">
+        <h1>Story Title</h1>
+        <p class="lede">Welcome to the journey. Click next to continue.</p>
+      </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page page--split">
+      <div class="copy">
+        <p class="eyebrow">Chapter 1</p>
+        <h2>Beginning</h2>
+        <p>This is where the story begins. Feel the emotions, experience the moments.</p>
+      </div>
+      <img src="https://via.placeholder.com/400x500" alt="Chapter 1" class="photo">
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page page--split page--reverse">
+      <div class="copy">
+        <p class="eyebrow">Chapter 2</p>
+        <h2>Development</h2>
+        <p>The story unfolds with beautiful moments and cherished memories.</p>
+      </div>
+      <img src="https://via.placeholder.com/400x500" alt="Chapter 2" class="photo">
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page page--wide">
+      <div class="copy copy--center">
+        <p class="eyebrow">Chapter 3</p>
+        <h2>Rising</h2>
+        <p class="lede">Emotions build as the narrative progresses deeper into the heart of the story.</p>
+      </div>
+      <img src="https://via.placeholder.com/800x600" alt="Chapter 3" class="banner">
+    </div>
+
+    <!-- Page 5 -->
+    <div class="page page--split">
+      <div class="copy">
+        <p class="eyebrow">Chapter 4</p>
+        <h2>Climax</h2>
+        <p>The moment of truth arrives, bringing everything together in a crescendo of emotion.</p>
+        <p class="pull">A special moment, beautifully remembered.</p>
+      </div>
+      <img src="https://via.placeholder.com/400x500" alt="Chapter 4" class="photo">
+    </div>
+
+    <!-- Page 6 - Video/Finale -->
+    <div class="page page--video page--finale">
+      <div class="finale-stage">
+        <div class="finale-petals">🌹 💕 🌹</div>
+        <div class="finale-glow finale-glow--one"></div>
+        <div class="finale-glow finale-glow--two"></div>
+        <div class="video-container">
+          <video id="finale-video" controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div id="media-status" class="media-status"></div>
+        <div class="video-caption">
+          <p class="finale-line">Closing Thoughts</p>
+          <p class="end-mark">THE END</p>
+          <div id="thank-you" class="thank-you-msg">Thank You 💕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pager">
+    <button id="back-btn" class="btn-3d btn-ghost">Back</button>
+    <span id="pager-count" class="pager-count">1 / 6</span>
+    <button id="next-btn" class="btn-3d">Next</button>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
 *,
 *::before,
