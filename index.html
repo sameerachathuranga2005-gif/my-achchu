@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>නොකියූ ආදරය</title>
+    <title>Unspoken Love | නොකියූ ආදරය | சொல்லப்படாத காதல்</title>
     <meta
       name="description"
       content="බිරියානි හොටෙල් එකකින් පටන් ගත්, තේ කඩයකින් ගලා ගිය, චොකලට් බෑගයක සැඟවුණු නොකියූ ආදර කතාවක්."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+Sinhala:wght@300;400;500;600&family=Noto+Serif+Sinhala:wght@300;400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+Tamil:wght@400;500&family=Noto+Serif+Sinhala:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="is-locked">
-    <!-- Background Audio -->
-    <audio id="bg-music" src="I Think They Call This Love (Cover).mp3" loop></audio>
+    <!-- Background Audio (Renamed to bg-music.mp3) -->
+    <audio id="bg-music" src="bg-music.mp3" loop></audio>
 
     <div class="orbs" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -27,11 +27,12 @@
     <div class="grain" aria-hidden="true"></div>
     <div class="vignette" aria-hidden="true"></div>
 
+    <!-- Password Gate Modal -->
     <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
       <div class="gate-card tilt">
         <p class="eyebrow">A cinematic love story</p>
         <h2 id="gate-title">නොකියූ ආදරය</h2>
-        <p class="gate-copy">කතාවට යන්න password එක දාලා Next එක ඔබන්න.</p>
+        <p class="gate-copy">අපේ ලස්සන ආදර කතාව බලන්න Password එක දාලා Next එක ඔබන්න.</p>
         <form id="gate-form" class="gate-form" autocomplete="off">
           <label for="gate-pass">Password</label>
           <input
@@ -44,13 +45,14 @@
             spellcheck="false"
             aria-describedby="gate-hint gate-error"
           />
-          <p class="gate-hint" id="gate-hint">Hint: ඒක මගේ නම — my name.</p>
+          <p class="gate-hint" id="gate-hint">Hint: ඒක මගේ නම — My Name</p>
           <p class="gate-error" id="gate-error" role="status" aria-live="polite" hidden>Password එක වැරදියි. ආයෙත් උත්සාහ කරන්න.</p>
           <button class="btn-3d" type="submit">Next</button>
         </form>
       </div>
     </div>
 
+    <!-- Navigation Header -->
     <header class="nav">
       <button class="nav-mark" type="button" data-goto="0" aria-label="Return to the beginning of the story">නොකියූ ආදරය</button>
       <nav class="nav-links" aria-label="Story chapters">
@@ -63,7 +65,9 @@
       </nav>
     </header>
 
+    <!-- Main Story Book Container -->
     <main class="book" id="book" aria-label="A six-chapter love story">
+      
       <!-- Page 1: Hero -->
       <section class="page page--hero is-active" data-page="0" aria-labelledby="page-title-1">
         <img
@@ -74,10 +78,12 @@
         <div class="hero-shade"></div>
         <div class="hero-copy">
           <p class="eyebrow">Page 01 · A cinematic love story</p>
-          <h1 id="page-title-1">නොකියූ ආදරය</h1>
+          <h1 id="page-title-1">Unspoken Love</h1>
+          <p class="sub-title-si">නොකියූ ආදරය</p>
+          <p class="sub-title-ta">சொல்லப்படாத காதல்</p>
           <p class="lede">
-            වචනවලට වඩා උණුසුම්ව තිබුණු අත් ස්පර්ශයකින් පටන් ගත් කතාවක්.
-            බිරියානි සුවඳ, මුහුදු සුළඟ, සහ කිසිදා යවන්නට බැරි වූ පණිවිඩයක්.
+            වචනවලට වඩා හදවතට දැනුණු ලස්සන අත් ස්පර්ශයකින් පටන් ගත් අපේ කතාව...
+            බිරියානි සුවඳ, හවස මුහුදු සුළඟ, සහ චොකලට් මල්ලක හැංගුණු නොකියූ ආදරය.
           </p>
         </div>
       </section>
@@ -91,17 +97,18 @@
           />
         </figure>
         <article class="copy">
-          <p class="chapter-num">Page 02 · පරිච්ඡේදය I</p>
-          <h2 id="page-title-2">බිරියානි හොටෙල් එකේ හමුවීම</h2>
+          <p class="chapter-num">Page 02 · Chapter I</p>
+          <h2 id="page-title-2">The Biryani Encounter</h2>
+          <div class="lang-subtitles">
+            <span>බිරියානි හොටෙල් එකේ හමුවීම</span> • <span>பிரியாணி கடையில் சந்திப்பு</span>
+          </div>
           <p>
-            ඒ දවසේ ආලෝකය විවරයෙන් ඇතුළට ගලා ආවේ රන් පාටින්. කුඩා හොටෙල් එකේ
-            බිත්තිවල කුංකුම සුවඳක් තිබුණා. මේසය මැද විශාල බිරියානි පිඟානක්.
+            එදා ඒ පුංචි බිරියානි හොටෙල් එකේදී අපි හමු වුණු මොහොත... ඔයා මං දිහා බලලා ලස්සනට සිනාසුණු විදිහ මට තාමත් මතකයි.
           </p>
           <p>
-            ඇය ඔහු දෙස බැලුවේ ලැජ්ජාවෙන් නොව, හඳුනා ගැනීමකින්. ඔහු සිනාසුණේ
-            හඬ නැතිව. ඒ සිනහව තුළ මුළු කාමරයම මෘදු වුණා.
+            ඒ සිනහවෙන් තමා මගේ මුළු ලෝකයම වෙනස් වුණේ. දෙන්නත් එක්ක කතා කර කර බිරියානි කෑව ඒ මොහොත මුළු ජීවිතයටම අමතක වෙන්නේ නැහැ.
           </p>
-          <p class="pull">“මේක හුදෙක් කෑමක් නෙවෙයි. මේක පටන් ගැනීමක්.”</p>
+          <p class="pull">“ඒක නිකම්ම නිකම් කෑම වේලක් නෙවෙයි... අපේ ආදර කතාවේ ලස්සනම ඇරඹුම.”</p>
         </article>
       </section>
 
@@ -114,16 +121,18 @@
           />
         </figure>
         <article class="copy copy--center">
-          <p class="chapter-num">Page 03 · පරිච්ඡේදය II</p>
-          <h2 id="page-title-3">බයික් එකේ යාම සහ තේ කඩය</h2>
+          <p class="chapter-num">Page 03 · Chapter II</p>
+          <h2 id="page-title-3">Sunset Ride & Tea</h2>
+          <div class="lang-subtitles">
+            <span>බයික් එකේ යාම සහ තේ කඩය</span> • <span>பைக் பயணம் மற்றும் தேனீர் கடை</span>
+          </div>
           <p>
-            නගරය හැර ගිය විට සුළඟට ලුණු රසක් තිබුණා. බයික් එකේ ඇය ඔහුගේ උරහිස
-            අල්ලාගෙන සිටියා. ඉදිරියේ මුහුද, උඩින් රන්වන් හිරු.
+            හවස ඉර බැහැගෙන යද්දී මුහුදු පාර දිගේ බයික් එකේ ගියපු ඒ ලස්සන ගමන... ඔයා මගේ උරහිස අල්ලාගෙන හිටපු විදිහ මට හරිම විශේෂයි.
           </p>
           <p>
-            තේ කඩයක් ආසන්නයේ නතර වුණා. වීදුරු කෝප්ප දෙකකින් උණුසුම් තේ.
-            මුහුදු රැල්ලේ හඬ අතර, දෙදෙනාටම තේරුණා — මේ ගමන අවසානයක් නෙවෙයි.
+            පාර අයිනේ පුංචි තේ කඩයෙන් උණුසුම් තේ කෝප්පයක් බොන ගමන්, රැළි වදින දිහා බලාගෙන අපි දෙන්නා හිටපු ඒ මොහොත හදවතට මාරම සහනයක් දුන්නා.
           </p>
+          <p class="pull">“මුහුදු සුළඟ අතරින් ගලා ගිය අපේ ආදරේ...”</p>
         </article>
       </section>
 
@@ -136,15 +145,18 @@
           />
         </figure>
         <article class="copy">
-          <p class="chapter-num">Page 04 · පරිච්ඡේදය III</p>
-          <h2 id="page-title-4">චොකලට් Surprise එක සහ ගෙදර ගාව</h2>
+          <p class="chapter-num">Page 04 · Chapter III</p>
+          <h2 id="page-title-4">The Chocolate Surprise</h2>
+          <div class="lang-subtitles">
+            <span>චොකලට් Surprise එක සහ ගෙදර ගාව</span> • <span>சாக்லேட் ஆச்சரியம்</span>
+          </div>
           <p>
-            රාත්‍රියේ වීදි ලාම්පු උණුසුම් කහ පාටින් බිම තව් කළා. ගෙදර ආසන්නයේදී
-            ඔහු ඇයට දුඹුරු කඩදාසි බෑගයක් දුන්නා. ඇතුළේ චොකලට් සහ කුඩා නමන ලද
-            කඩදාසියක්.
+            ඔයාගේ ගෙදර ගාවදී මං දුන්නු ඒ චොකලට් මල්ල... ඒක ඇතුළේ තිබුණු කොළ කෑල්ලේ ලියපු Phone Number එක දැකලා ඔයාගේ මූණේ ඇඳුණු ලස්සන හිනාව මට තාමත් පෙනෙනවා.
           </p>
-          <p>ඇය ඒ කඩදාසිය අරින්නට මැලි වුණා. ඒ නම්බරය කතාවක් නෙවෙයි — ආරාධනාවක්.</p>
-          <p class="pull">සමහර තෑගිවල චොකලට් වඩා මිහිරි දෙයක් තියෙනවා.</p>
+          <p>
+            ඔයා ආස කරන පුංචි පුංචි දේවල් පවා මතක තියාගෙන තෑගි දෙන්න ලැබුණු එක මගේ හිතට ගෙනාවේ ලොකු සතුටක්.
+          </p>
+          <p class="pull">“චොකලට් වලටත් වඩා මිහිරි ආදරයක් එතන තිබුණා...”</p>
         </article>
       </section>
 
@@ -157,17 +169,22 @@
           />
         </figure>
         <article class="copy copy--center">
-          <p class="chapter-num">Page 05 · පරිච්ඡේදය IV</p>
-          <h2 id="page-title-5">නොකියූ ආදරය</h2>
+          <p class="chapter-num">Page 05 · Chapter IV</p>
+          <h2 id="page-title-5">Late Night Conversations</h2>
+          <div class="lang-subtitles">
+            <span>රෑ ජාමයේ නොකියූ ආදරය</span> • <span>இரவு நேர உரையாடல்</span>
+          </div>
           <p>
-            රාත්‍රිය නිහඬයි. කොට්ටය මත දුරකථනය දිලිසෙනවා — කොළ පාට චැට් එක,
-            හදවත් කිහිපයක්, සහ යවන්නට බැරි වූ වාක්‍යයක්.
+            රෑ නිහඬ වෙද්දී Phone එකේ දිලිසෙන කොළ පාට Chat එක... අපි දෙන්නා අනාගතය ගැන, අපේ හිත්වල තිබුණු හැඟීම් ගැන පැය ගණන් කතා කළා.
           </p>
-          <p class="pull">සමහර ආදරයන් කියනවා. සමහර ආදරයන් නිදාගන්නවා — තිරය දිලිසෙන තුරු.</p>
+          <p>
+            වචනවලින් කියනවට වඩා හදවතින් විඳින මේ ආදරය මගේ ජීවිතේ ලැබුණු ලස්සනම ආශීර්වාදයක්.
+          </p>
+          <p class="pull">“හදවතට විතරක් දැනෙන, නිහඬ ලස්සන ආදරයක්...”</p>
         </article>
       </section>
 
-      <!-- Page 6: The final scene -->
+      <!-- Page 6: Final Scene (Renamed to final-video.mp4) -->
       <section class="page page--video" data-page="5" aria-labelledby="page-title-6">
         <div class="finale-stage">
           <div class="finale-glow finale-glow--one" aria-hidden="true"></div>
@@ -176,24 +193,30 @@
           <div class="video-container">
             <video
               id="finale-video"
-              src="Initial_Scene_-_2026-08-30_202608310756-compressed.mp4"
               controls
               playsinline
               preload="metadata"
               aria-labelledby="page-title-6"
-            ></video>
+            >
+              <source src="final-video.mp4" type="video/mp4" />
+              ඔයාගේ Browser එකෙන් මේ Video එක Play කරන්න සහාය දක්වන්නේ නැත.
+            </video>
           </div>
           <p class="media-status" id="media-status" role="status" aria-live="polite"></p>
           <article class="copy copy--center video-caption">
-            <p class="chapter-num">Page 06 · අවසාන දර්ශනය</p>
-            <h2 id="page-title-6">අපේ කතාව තවමත් ලියවෙමින්</h2>
-            <p class="finale-line">ඔයා මගේ හදවතේ නිහඬම, ලස්සනම ගීතය.</p>
+            <p class="chapter-num">Page 06 · Final Chapter</p>
+            <h2 id="page-title-6">Our Story Continues</h2>
+            <div class="lang-subtitles">
+              <span>අපේ කතාව තවමත් ලියවෙමින්...</span> • <span>நமது கதை இன்னும் எழுதப்படுகிறது...</span>
+            </div>
+            <p class="finale-line">"ඔයා මගේ හදවතේ නිහඬම, ලස්සනම ගීතය... ❤️"</p>
             <p class="end-mark">Forever in my heart...</p>
           </article>
         </div>
       </section>
     </main>
 
+    <!-- Pagination Controls -->
     <div class="pager" id="pager">
       <button class="btn-3d btn-ghost" id="back-btn" type="button" disabled>Back</button>
       <p class="pager-count" id="pager-count" aria-live="polite">1 / 6</p>
