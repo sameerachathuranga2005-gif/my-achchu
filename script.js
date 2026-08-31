@@ -1,6 +1,6 @@
 const PASSWORD = "sameera";
 const TOTAL = 6;
-const COOLDOWN_MS = 5000;
+const COOLDOWN_MS = 5000; // තත්පර 5ක Cooldown එක නැවත එකතු කරන ලදී
 
 const html = document.documentElement;
 const body = document.body;
@@ -72,32 +72,36 @@ const pauseFinale = (reset = true) => {
     finaleVideo.pause();
     if (reset) finaleVideo.currentTime = 0;
   }
-
 };
 
 const playFinale = () => {
   if (!finaleVideo) return;
 
   finaleVideo.currentTime = 0;
-  finaleVideo.muted = true;
+  finaleVideo.muted = true; // Video එක Mute කර ඇත
   finaleVideo.volume = 0;
   finaleEnded = false;
   thanked = false;
-  thankYou?.setAttribute("hidden", "");
+  
+  if (thankYou) thankYou.setAttribute("hidden", "");
   videoCaption?.classList.remove("is-complete");
   setMediaStatus("");
 
-  // Keep the background track playing; the finale video is intentionally muted.
   if (reducedMotion) {
     setMediaStatus("Select Play to watch the final scene.");
     return;
   }
 
-  const playRequest = finaleVideo.play();
-  if (playRequest && typeof playRequest.catch === "function") {
-    playRequest.catch(() => {
-      setMediaStatus("Select Play to begin the final scene.");
-    });
+  // Video Autoplay Trigger
+  const playPromise = finaleVideo.play();
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        setMediaStatus("");
+      })
+      .catch(() => {
+        setMediaStatus("Select Play to begin the final scene.");
+      });
   }
 };
 
@@ -141,13 +145,11 @@ const unlock = () => {
   unlocked = true;
   html.classList.remove("is-locked");
   body.classList.remove("is-locked");
-  gate.hidden = true;
+  if (gate) gate.hidden = true;
 
   if (bgMusic) {
     bgMusic.volume = 0.42;
-    bgMusic.play().catch(() => {
-      // A muted or blocked media policy should not interrupt the story.
-    });
+    bgMusic.play().catch(() => {});
   }
 
   setPage(0, { focus: false, cooldown: false });
@@ -197,30 +199,34 @@ const completeStory = () => {
 
   thanked = true;
   isFinished = true;
-  thankYou.textContent = "Thanks Achchu 💖";
-  thankYou.removeAttribute("hidden");
+  if (thankYou) {
+    thankYou.textContent = "Thanks Achchu 💖";
+    thankYou.removeAttribute("hidden");
+  }
   videoCaption?.classList.add("is-complete");
   body.classList.add("is-finished");
   updateControls();
   setMediaStatus("Thanks Achchu.");
 };
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const value = input.value.trim().toLowerCase();
+if (form) {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const value = input.value.trim().toLowerCase();
 
-  if (value === PASSWORD) {
-    errorEl.hidden = true;
-    unlock();
-    return;
-  }
+    if (value === PASSWORD) {
+      if (errorEl) errorEl.hidden = true;
+      unlock();
+      return;
+    }
 
-  errorEl.hidden = false;
-  input.value = "";
-  input.focus();
-});
+    if (errorEl) errorEl.hidden = false;
+    input.value = "";
+    input.focus();
+  });
+}
 
-nextBtn.addEventListener("click", () => {
+nextBtn?.addEventListener("click", () => {
   if (pageIndex === TOTAL - 1) {
     completeStory();
     return;
@@ -228,7 +234,7 @@ nextBtn.addEventListener("click", () => {
   setPage(pageIndex + 1);
 });
 
-backBtn.addEventListener("click", () => {
+backBtn?.addEventListener("click", () => {
   setPage(pageIndex - 1);
 });
 
@@ -283,4 +289,4 @@ createHearts();
 setupTilt();
 updateControls();
 
-if (body.classList.contains("is-locked")) input.focus();
+if (body.classList.contains("is-locked") && input) input.focus();
