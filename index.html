@@ -40,18 +40,20 @@
             name="password"
             required
             autofocus
+            autocomplete="current-password"
             spellcheck="false"
+            aria-describedby="gate-hint gate-error"
           />
-          <p class="gate-hint">Hint: ඒක මගේ නම — my name.</p>
-          <p class="gate-error" id="gate-error" hidden>Password එක වැරදියි. ආයෙත් උත්සාහ කරන්න.</p>
+          <p class="gate-hint" id="gate-hint">Hint: ඒක මගේ නම — my name.</p>
+          <p class="gate-error" id="gate-error" role="status" aria-live="polite" hidden>Password එක වැරදියි. ආයෙත් උත්සාහ කරන්න.</p>
           <button class="btn-3d" type="submit">Next</button>
         </form>
       </div>
     </div>
 
     <header class="nav">
-      <button class="nav-mark" type="button" data-goto="0">නොකියූ ආදරය</button>
-      <nav class="nav-links" aria-label="Pages">
+      <button class="nav-mark" type="button" data-goto="0" aria-label="Return to the beginning of the story">නොකියූ ආදරය</button>
+      <nav class="nav-links" aria-label="Story chapters">
         <button type="button" data-goto="0">1</button>
         <button type="button" data-goto="1">2</button>
         <button type="button" data-goto="2">3</button>
@@ -61,18 +63,18 @@
       </nav>
     </header>
 
-    <main class="book" id="book">
+    <main class="book" id="book" aria-label="A six-chapter love story">
       <!-- Page 1: Hero -->
-      <section class="page page--hero is-active" data-page="0">
+      <section class="page page--hero is-active" data-page="0" aria-labelledby="page-title-1">
         <img
           class="hero-img"
-          src="hero.png"
+          src="images/hero.png"
           alt="රන්වන් ආලෝකයේ ලී මේසයක් මත තරුණයන් දෙදෙනෙකුගේ අත් මෘදුව ස්පර්ශ වී ඇත."
         />
         <div class="hero-shade"></div>
         <div class="hero-copy">
           <p class="eyebrow">Page 01 · A cinematic love story</p>
-          <h1>නොකියූ ආදරය</h1>
+          <h1 id="page-title-1">නොකියූ ආදරය</h1>
           <p class="lede">
             වචනවලට වඩා උණුසුම්ව තිබුණු අත් ස්පර්ශයකින් පටන් ගත් කතාවක්.
             බිරියානි සුවඳ, මුහුදු සුළඟ, සහ කිසිදා යවන්නට බැරි වූ පණිවිඩයක්.
@@ -81,16 +83,16 @@
       </section>
 
       <!-- Page 2: Chapter 1 -->
-      <section class="page page--split" data-page="1">
+      <section class="page page--split" data-page="1" aria-labelledby="page-title-2">
         <figure class="photo tilt">
           <img
-            src="chapter-1.png"
+            src="images/chapter-1.png"
             alt="උණුසුම් ආලෝකය ඇති සාම්ප්‍රදායික ශ්‍රී ලාංකික අවන්හලක යුවළක් සිනාසෙමින් බලා සිටිති."
           />
         </figure>
         <article class="copy">
           <p class="chapter-num">Page 02 · පරිච්ඡේදය I</p>
-          <h2>බිරියානි හොටෙල් එකේ හමුවීම</h2>
+          <h2 id="page-title-2">බිරියානි හොටෙල් එකේ හමුවීම</h2>
           <p>
             ඒ දවසේ ආලෝකය විවරයෙන් ඇතුළට ගලා ආවේ රන් පාටින්. කුඩා හොටෙල් එකේ
             බිත්තිවල කුංකුම සුවඳක් තිබුණා. මේසය මැද විශාල බිරියානි පිඟානක්.
@@ -104,16 +106,16 @@
       </section>
 
       <!-- Page 3: Chapter 2 -->
-      <section class="page page--wide" data-page="2">
+      <section class="page page--wide" data-page="2" aria-labelledby="page-title-3">
         <figure class="banner tilt">
           <img
-            src="chapter-2.png"
+            src="images/chapter-2.png"
             alt="හිරු බැස යන මුහුදු පාරක anime යුවළක් ක්ලැසික් මෝටර් බයිසිකලයක ගමන් කරති."
           />
         </figure>
         <article class="copy copy--center">
           <p class="chapter-num">Page 03 · පරිච්ඡේදය II</p>
-          <h2>බයික් එකේ යාම සහ තේ කඩය</h2>
+          <h2 id="page-title-3">බයික් එකේ යාම සහ තේ කඩය</h2>
           <p>
             නගරය හැර ගිය විට සුළඟට ලුණු රසක් තිබුණා. බයික් එකේ ඇය ඔහුගේ උරහිස
             අල්ලාගෙන සිටියා. ඉදිරියේ මුහුද, උඩින් රන්වන් හිරු.
@@ -126,16 +128,16 @@
       </section>
 
       <!-- Page 4: Chapter 3 -->
-      <section class="page page--split page--reverse" data-page="3">
+      <section class="page page--split page--reverse" data-page="3" aria-labelledby="page-title-4">
         <figure class="photo photo--square tilt">
           <img
-            src="chapter-3.png"
+            src="images/chapter-3.png"
             alt="ගැහැණු අතකින් රඳවාගත් දුඹුරු කඩදාසි තෑගි බෑගයක්. ඇතුළේ චොකලට් සහ නමන ලද කඩදාසියක්."
           />
         </figure>
         <article class="copy">
           <p class="chapter-num">Page 04 · පරිච්ඡේදය III</p>
-          <h2>චොකලට් Surprise එක සහ ගෙදර ගාව</h2>
+          <h2 id="page-title-4">චොකලට් Surprise එක සහ ගෙදර ගාව</h2>
           <p>
             රාත්‍රියේ වීදි ලාම්පු උණුසුම් කහ පාටින් බිම තව් කළා. ගෙදර ආසන්නයේදී
             ඔහු ඇයට දුඹුරු කඩදාසි බෑගයක් දුන්නා. ඇතුළේ චොකලට් සහ කුඩා නමන ලද
@@ -147,16 +149,16 @@
       </section>
 
       <!-- Page 5: Chapter 4 -->
-      <section class="page page--finale" data-page="4">
+      <section class="page page--finale" data-page="4" aria-labelledby="page-title-5">
         <figure class="banner tilt">
           <img
-            src="chapter-4.png"
+            src="images/chapter-4.png"
             alt="අඳුරු නිදන කාමරයක කොට්ටයක් මත ස්මාර්ට්ෆෝනයක්. තිරයේ හරිත චැට් එකක් සහ හදවත් ඉමෝජි පෙනේ."
           />
         </figure>
         <article class="copy copy--center">
           <p class="chapter-num">Page 05 · පරිච්ඡේදය IV</p>
-          <h2>නොකියූ ආදරය</h2>
+          <h2 id="page-title-5">නොකියූ ආදරය</h2>
           <p>
             රාත්‍රිය නිහඬයි. කොට්ටය මත දුරකථනය දිලිසෙනවා — කොළ පාට චැට් එක,
             හදවත් කිහිපයක්, සහ යවන්නට බැරි වූ වාක්‍යයක්.
@@ -165,25 +167,36 @@
         </article>
       </section>
 
-      <!-- Page 6: Full Screen Video Scene -->
-      <section class="page page--video" data-page="5">
-        <div class="video-container">
-          <video
-            id="finale-video"
-            src="Initial_Scene_-_2026-08-30_202608310756-compressed.mp4"
-            controls
-            playsinline
-          ></video>
+      <!-- Page 6: The final scene -->
+      <section class="page page--video" data-page="5" aria-labelledby="page-title-6">
+        <div class="finale-stage">
+          <div class="finale-glow finale-glow--one" aria-hidden="true"></div>
+          <div class="finale-glow finale-glow--two" aria-hidden="true"></div>
+          <div class="finale-petals" aria-hidden="true"><span>♡</span><span>✦</span><span>♡</span></div>
+          <div class="video-container">
+            <video
+              id="finale-video"
+              src="Initial_Scene_-_2026-08-30_202608310756.mp4"
+              controls
+              playsinline
+              preload="metadata"
+              aria-labelledby="page-title-6"
+            ></video>
+          </div>
+          <p class="media-status" id="media-status" role="status" aria-live="polite"></p>
+          <article class="copy copy--center video-caption">
+            <p class="chapter-num">Page 06 · අවසාන දර්ශනය</p>
+            <h2 id="page-title-6">අපේ කතාව තවමත් ලියවෙමින්</h2>
+            <p class="finale-line">ඔයා මගේ හදවතේ නිහඬම, ලස්සනම ගීතය.</p>
+            <p class="end-mark">Forever in my heart...</p>
+          </article>
         </div>
-        <article class="copy copy--center video-caption">
-          <p class="end-mark">The End — for now</p>
-        </article>
       </section>
     </main>
 
     <div class="pager" id="pager">
       <button class="btn-3d btn-ghost" id="back-btn" type="button" disabled>Back</button>
-      <p class="pager-count" id="pager-count">1 / 6</p>
+      <p class="pager-count" id="pager-count" aria-live="polite">1 / 6</p>
       <button class="btn-3d" id="next-btn" type="button">Next</button>
     </div>
 
