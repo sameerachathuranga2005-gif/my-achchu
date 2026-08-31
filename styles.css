@@ -1039,6 +1039,7 @@ h2 {
 
   .page {
     padding-inline: 1rem;
+    padding-bottom: calc(var(--pager-height) + env(safe-area-inset-bottom) + 1.2rem);
   }
 
   .hero-copy {
@@ -1055,6 +1056,7 @@ h2 {
   }
 
   .pager {
+    bottom: max(0.8rem, env(safe-area-inset-bottom));
     gap: 0.55rem;
     padding-inline: 0.55rem;
   }
@@ -1078,6 +1080,92 @@ h2 {
 
   .page--video video {
     border-radius: 0.55rem;
+  }
+
+  .page--split .photo:not(.photo--square) img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .copy h2 {
+    font-size: clamp(1.4rem, 7vw, 1.9rem);
+  }
+
+  .lang-subtitles {
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 0.78rem;
+  }
+
+  .gate {
+    padding: 1rem;
+  }
+
+  .gate-card {
+    padding: 2.2rem 1.25rem 1.8rem;
+  }
+
+  .pager .btn-3d {
+    min-width: 5.8rem;
+    min-height: 2.65rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav {
+    gap: 0.4rem;
+    padding-inline: 0.65rem;
+  }
+
+  .nav-mark {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 7.5rem;
+    font-size: 0.82rem;
+  }
+
+  .nav-links {
+    flex: 0 1 auto;
+    max-width: 58vw;
+  }
+
+  .nav-links button {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.88rem;
+  }
+
+  .hero-copy {
+    padding-bottom: 8rem;
+  }
+
+  .pager {
+    gap: 0.35rem;
+  }
+
+  .pager .btn-3d {
+    min-width: 5.25rem;
+    padding-inline: 0.65rem;
+  }
+
+  .pager-count {
+    min-width: 3.2rem;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-height: 600px) and (max-width: 520px) {
+  .page--video {
+    place-items: start center;
+  }
+
+  .finale-stage {
+    padding-block: 0.4rem;
+  }
+
+  .page--split,
+  .page--reverse {
+    align-content: start;
   }
 }
 
