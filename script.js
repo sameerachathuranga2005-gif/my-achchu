@@ -1,5 +1,6 @@
 const PASSWORD = "sameera";
 const TOTAL = 6;
+const COOLDOWN_MS = 5000;
 
 const html = document.documentElement;
 const body = document.body;
@@ -11,76 +12,129 @@ const pages = [...document.querySelectorAll(".page")];
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const countEl = document.getElementById("pager-count");
-const navButtons = [...document.querySelectorAll("[data-goto]")];
+const chapterButtons = [...document.querySelectorAll(".nav-links button")];
+const gotoButtons = [...document.querySelectorAll("[data-goto]")];
 const hearts = document.querySelector(".hearts");
-
 const bgMusic = document.getElementById("bg-music");
 const finaleVideo = document.getElementById("finale-video");
+const videoCaption = document.querySelector(".video-caption");
+const mediaStatus = document.getElementById("media-status");
+const thankYou = document.getElementById("thank-you");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let pageIndex = 0;
 let unlocked = false;
 let isCooldown = false;
+let finaleEnded = false;
+let thanked = false;
+let isFinished = false;
+let cooldownTimer = null;
+const reducedMotion = reducedMotionQuery.matches;
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 html.classList.add("is-locked");
 
-// Floating hearts setup
-for (let i = 0; i < 18; i += 1) {
-  const heart = document.createElement("span");
-  heart.textContent = "♥";
-  heart.style.left = `${Math.random() * 100}%`;
-  heart.style.animationDuration = `${7 + Math.random() * 8}s`;
-  heart.style.animationDelay = `${Math.random() * 6}s`;
-  heart.style.fontSize = `${10 + Math.random() * 16}px`;
-  hearts.append(heart);
-}
+const updateControls = () => {
+  const atStart = pageIndex === 0;
+  const atEnd = pageIndex === TOTAL - 1;
 
-// Handle 5-second delay for buttons
-const triggerCooldown = () => {
-  isCooldown = true;
-  nextBtn.disabled = true;
-  backBtn.disabled = true;
-  navButtons.forEach((btn) => (btn.style.pointerEvents = "none"));
+  countEl.textContent = `${pageIndex + 1} / ${TOTAL}`;
+  nextBtn.textContent = atEnd ? (thanked ? "Thanks Achchu" : finaleEnded ? "Thanks" : "Finish") : "Next";
+  nextBtn.disabled = isCooldown || (atEnd && (!finaleEnded || thanked));
+  backBtn.disabled = isCooldown || atStart || isFinished;
 
-  setTimeout(() => {
-    isCooldown = false;
-    nextBtn.disabled = false;
-    backBtn.disabled = pageIndex === 0;
-    navButtons.forEach((btn) => (btn.style.pointerEvents = "auto"));
-  }, 5000);
+  chapterButtons.forEach((button, index) => {
+    const active = Number(button.dataset.goto) === pageIndex;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-current", active ? "page" : "false");
+    button.setAttribute("aria-label", `Open story chapter ${index + 1}`);
+    button.setAttribute("aria-disabled", String(isCooldown || isFinished));
+  });
 };
 
-const setPage = (index) => {
-  if (!unlocked || isCooldown) return;
+const triggerCooldown = () => {
+  window.clearTimeout(cooldownTimer);
+  isCooldown = true;
+  updateControls();
+
+  cooldownTimer = window.setTimeout(() => {
+    isCooldown = false;
+    updateControls();
+  }, COOLDOWN_MS);
+};
+
+const setMediaStatus = (message = "") => {
+  if (mediaStatus) mediaStatus.textContent = message;
+};
+
+const pauseFinale = (reset = true) => {
+  if (finaleVideo) {
+    finaleVideo.pause();
+    if (reset) finaleVideo.currentTime = 0;
+  }
+
+};
+
+const playFinale = () => {
+  if (!finaleVideo) return;
+
+  finaleVideo.currentTime = 0;
+  finaleVideo.muted = true;
+  finaleVideo.volume = 0;
+  finaleEnded = false;
+  thanked = false;
+  thankYou?.setAttribute("hidden", "");
+  videoCaption?.classList.remove("is-complete");
+  setMediaStatus("");
+
+  // Keep the background track playing; the finale video is intentionally muted.
+  if (reducedMotion) {
+    setMediaStatus("Select Play to watch the final scene.");
+    return;
+  }
+
+  const playRequest = finaleVideo.play();
+  if (playRequest && typeof playRequest.catch === "function") {
+    playRequest.catch(() => {
+      setMediaStatus("Select Play to begin the final scene.");
+    });
+  }
+};
+
+const focusPageHeading = (page) => {
+  const heading = page.querySelector("h1, h2, h3");
+  if (!heading) return;
+  if (!heading.hasAttribute("tabindex")) heading.tabIndex = -1;
+  window.setTimeout(() => heading.focus({ preventScroll: true }), 80);
+};
+
+const setPage = (index, { focus = true, cooldown = true } = {}) => {
+  if (!unlocked || isCooldown || isFinished) return;
+
   const next = Math.max(0, Math.min(TOTAL - 1, index));
+  const previous = pageIndex;
+  const changed = next !== previous;
+
+  if (changed || next !== TOTAL - 1) finaleEnded = false;
 
   pages.forEach((page, i) => {
-    page.classList.toggle("is-leave", i === pageIndex && i !== next);
-    page.classList.toggle("is-active", i === next);
+    const active = i === next;
+    page.classList.toggle("is-leave", i === previous && changed);
+    page.classList.toggle("is-active", active);
+    page.setAttribute("aria-hidden", String(!active));
   });
 
   pageIndex = next;
-  countEl.textContent = `${pageIndex + 1} / ${TOTAL}`;
-  
-  nextBtn.textContent = pageIndex === TOTAL - 1 ? "Again" : "Next";
+  updateControls();
 
-  document.querySelectorAll(".nav-links button").forEach((btn) => {
-    btn.classList.toggle("is-active", Number(btn.dataset.goto) === pageIndex);
-  });
-
-  // Handle Video auto-play on Page 6 (Index 5)
   if (pageIndex === TOTAL - 1) {
-    if (finaleVideo) {
-      finaleVideo.currentTime = 0;
-      finaleVideo.play().catch((e) => console.log("Video play error:", e));
-    }
+    playFinale();
   } else {
-    if (finaleVideo && !finaleVideo.paused) {
-      finaleVideo.pause();
-    }
+    pauseFinale();
   }
 
-  // Trigger 5-second wait time before allowing next action
-  triggerCooldown();
+  if (focus && changed) focusPageHeading(pages[pageIndex]);
+  if (changed && cooldown) triggerCooldown();
 };
 
 const unlock = () => {
@@ -88,63 +142,145 @@ const unlock = () => {
   html.classList.remove("is-locked");
   body.classList.remove("is-locked");
   gate.hidden = true;
-  
-  // Play Background Music after unlock
+
   if (bgMusic) {
-    bgMusic.play().catch((e) => console.log("Audio play blocked:", e));
+    bgMusic.volume = 0.42;
+    bgMusic.play().catch(() => {
+      // A muted or blocked media policy should not interrupt the story.
+    });
   }
 
-  setPage(0);
+  setPage(0, { focus: false, cooldown: false });
+  nextBtn.focus();
+};
+
+const createHearts = () => {
+  if (reducedMotion || !hearts) return;
+
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < 18; i += 1) {
+    const heart = document.createElement("span");
+    heart.textContent = i % 3 === 0 ? "♡" : "♥";
+    heart.style.left = `${Math.random() * 100}%`;
+    heart.style.animationDuration = `${7 + Math.random() * 8}s`;
+    heart.style.animationDelay = `${Math.random() * 6}s`;
+    heart.style.fontSize = `${10 + Math.random() * 16}px`;
+    fragment.append(heart);
+  }
+  hearts.append(fragment);
+};
+
+const setupTilt = () => {
+  if (reducedMotion || !finePointer) return;
+
+  document.querySelectorAll(".tilt").forEach((card) => {
+    const tilt = (event) => {
+      if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
+      const rect = card.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 10).toFixed(2)}deg) translateZ(12px)`;
+    };
+
+    const reset = () => {
+      card.style.transform = "";
+    };
+
+    card.addEventListener("pointermove", tilt, { passive: true });
+    card.addEventListener("pointerleave", reset);
+    card.addEventListener("blur", reset, true);
+  });
+};
+
+const completeStory = () => {
+  if (pageIndex !== TOTAL - 1 || !finaleEnded || isFinished) return;
+
+  thanked = true;
+  isFinished = true;
+  thankYou.textContent = "Thanks Achchu 💖";
+  thankYou.removeAttribute("hidden");
+  videoCaption?.classList.add("is-complete");
+  body.classList.add("is-finished");
+  updateControls();
+  setMediaStatus("Thanks Achchu.");
 };
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const value = input.value.trim().toLowerCase();
+
   if (value === PASSWORD) {
     errorEl.hidden = true;
     unlock();
     return;
   }
+
   errorEl.hidden = false;
   input.value = "";
   input.focus();
 });
 
 nextBtn.addEventListener("click", () => {
-  if (isCooldown) return;
   if (pageIndex === TOTAL - 1) {
-    setPage(0);
+    completeStory();
     return;
   }
   setPage(pageIndex + 1);
 });
 
 backBtn.addEventListener("click", () => {
-  if (isCooldown) return;
   setPage(pageIndex - 1);
 });
 
-navButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (isCooldown) return;
-    setPage(Number(btn.dataset.goto));
+chapterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setPage(Number(button.dataset.goto));
   });
 });
 
-// Tilt animations
-const tilt = (event) => {
-  const card = event.currentTarget;
-  const rect = card.getBoundingClientRect();
-  const x = (event.clientX - rect.left) / rect.width - 0.5;
-  const y = (event.clientY - rect.top) / rect.height - 0.5;
-  card.style.transform = `rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 14).toFixed(2)}deg) translateZ(12px)`;
-};
+gotoButtons
+  .filter((button) => button.classList.contains("nav-mark"))
+  .forEach((button) => {
+    button.addEventListener("click", () => setPage(0));
+  });
 
-const untilt = (event) => {
-  event.currentTarget.style.transform = "";
-};
-
-document.querySelectorAll(".tilt").forEach((el) => {
-  el.addEventListener("mousemove", tilt);
-  el.addEventListener("mouseleave", untilt);
+finaleVideo?.addEventListener("ended", () => {
+  finaleEnded = true;
+  videoCaption?.classList.add("is-complete");
+  updateControls();
+  setMediaStatus("Video එක ඉවරයි. Thanks button එක ඔබන්න.");
 });
+
+finaleVideo?.addEventListener("error", () => {
+  setMediaStatus("The final scene could not be loaded. Please try again.");
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!unlocked || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+
+  const target = event.target;
+  if (
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    target instanceof HTMLSelectElement ||
+    target instanceof HTMLButtonElement ||
+    target instanceof HTMLVideoElement ||
+    target.closest("video, audio, form, [contenteditable='true']")
+  ) {
+    return;
+  }
+
+  if (isCooldown) return;
+  event.preventDefault();
+  setPage(pageIndex + (event.key === "ArrowRight" ? 1 : -1));
+});
+
+pages.forEach((page, index) => {
+  page.setAttribute("aria-hidden", String(index !== pageIndex));
+});
+
+createHearts();
+setupTilt();
+updateControls();
+
+if (body.classList.contains("is-locked")) input.focus();
