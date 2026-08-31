@@ -1,228 +1,910 @@
-<!DOCTYPE html>
-<html lang="si">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Unspoken Love | නොකියූ ආදරය | சொல்லப்படாத காதல்</title>
-    <meta
-      name="description"
-      content="බිරියානි හොටෙල් එකකින් පටන් ගත්, තේ කඩයකින් ගලා ගිය, චොකලට් බෑගයක සැඟවුණු නොකියූ ආදර කතාවක්."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+Tamil:wght@400;500&family=Noto+Serif+Sinhala:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body class="is-locked">
-    <!-- Background Audio (Renamed to bg-music.mp3) -->
-    <audio id="bg-music" src="bg-music.mp3" loop></audio>
+:root {
+  --gold: #d4a574;
+  --gold-bright: #f3d4a7;
+  --gold-soft: #e8c9a4;
+  --champagne: #f8e8d0;
+  --cream: #f4e8d6;
+  --ink: #1a120c;
+  --night: #0d0907;
+  --wine: #5b1f33;
+  --wine-deep: #2d101d;
+  --rose: #b85c72;
+  --blush: #f0aab8;
+  --surface: rgba(36, 19, 19, 0.76);
+  --surface-strong: rgba(24, 12, 12, 0.93);
+  --line: rgba(232, 201, 164, 0.28);
+  --line-bright: rgba(248, 232, 208, 0.5);
+  --shadow-deep: 0 2rem 6rem rgba(0, 0, 0, 0.52);
+  --shadow-card: 0 1rem 3rem rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(212, 165, 116, 0.2);
+  --shadow-glow: 0 0 3rem rgba(184, 92, 114, 0.2);
+  --font-si: "Noto Serif Sinhala", "Noto Sans Sinhala", serif;
+  --font-si-ui: "Noto Sans Sinhala", sans-serif;
+  --font-en: "Cormorant Garamond", "Times New Roman", serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-height: 4.8rem;
+  --pager-height: 4.8rem;
+}
 
-    <div class="orbs" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="hearts" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-    <!-- Password Gate Modal -->
-    <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
-      <div class="gate-card tilt">
-        <p class="eyebrow">A cinematic love story</p>
-        <h2 id="gate-title">නොකියූ ආදරය</h2>
-        <p class="gate-copy">අපේ ලස්සන ආදර කතාව බලන්න Password එක දාලා Next එක ඔබන්න.</p>
-        <form id="gate-form" class="gate-form" autocomplete="off">
-          <label for="gate-pass">Password</label>
-          <input
-            id="gate-pass"
-            type="password"
-            name="password"
-            required
-            autofocus
-            autocomplete="current-password"
-            spellcheck="false"
-            aria-describedby="gate-hint gate-error"
-          />
-          <p class="gate-hint" id="gate-hint">Hint: ඒක මගේ නම — My Name</p>
-          <p class="gate-error" id="gate-error" role="status" aria-live="polite" hidden>Password එක වැරදියි. ආයෙත් උත්සාහ කරන්න.</p>
-          <button class="btn-3d" type="submit">Next</button>
-        </form>
-      </div>
-    </div>
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--night);
+  color: var(--cream);
+  font-family: var(--font-si-ui);
+  font-weight: 400;
+  line-height: 1.75;
+  perspective: 1400px;
+}
 
-    <!-- Navigation Header -->
-    <header class="nav">
-      <button class="nav-mark" type="button" data-goto="0" aria-label="Return to the beginning of the story">නොකියූ ආදරය</button>
-      <nav class="nav-links" aria-label="Story chapters">
-        <button type="button" data-goto="0">1</button>
-        <button type="button" data-goto="1">2</button>
-        <button type="button" data-goto="2">3</button>
-        <button type="button" data-goto="3">4</button>
-        <button type="button" data-goto="4">5</button>
-        <button type="button" data-goto="5">6</button>
-      </nav>
-    </header>
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 
-    <!-- Main Story Book Container -->
-    <main class="book" id="book" aria-label="A six-chapter love story">
-      
-      <!-- Page 1: Hero -->
-      <section class="page page--hero is-active" data-page="0" aria-labelledby="page-title-1">
-        <img
-          class="hero-img"
-          src="hero.png"
-          alt="රන්වන් ආලෝකයේ ලී මේසයක් මත තරුණයන් දෙදෙනෙකුගේ අත් මෘදුව ස්පර්ශ වී ඇත."
-        />
-        <div class="hero-shade"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">Page 01 · A cinematic love story</p>
-          <h1 id="page-title-1">Unspoken Love</h1>
-          <p class="sub-title-si">නොකියූ ආදරය</p>
-          <p class="sub-title-ta">சொல்லப்படாத காதல்</p>
-          <p class="lede">
-            වචනවලට වඩා හදවතට දැනුණු ලස්සන අත් ස්පර්ශයකින් පටන් ගත් අපේ කතාව...
-            බිරියානි සුවඳ, හවස මුහුදු සුළඟ, සහ චොකලට් මල්ලක හැංගුණු නොකියූ ආදරය.
-          </p>
-        </div>
-      </section>
+body {
+  height: 100dvh;
+  overflow: hidden;
+}
 
-      <!-- Page 2: Chapter 1 -->
-      <section class="page page--split" data-page="1" aria-labelledby="page-title-2">
-        <figure class="photo tilt">
-          <img
-            src="chapter-1.png"
-            alt="උණුසුම් ආලෝකය ඇති සාම්ප්‍රදායික ශ්‍රී ලාංකික අවන්හලක යුවළක් සිනාසෙමින් බලා සිටිති."
-          />
-        </figure>
-        <article class="copy">
-          <p class="chapter-num">Page 02 · Chapter I</p>
-          <h2 id="page-title-2">The Biryani Encounter</h2>
-          <div class="lang-subtitles">
-            <span>බිරියානි හොටෙල් එකේ හමුවීම</span> • <span>பிரியாணி கடையில் சந்திப்பு</span>
-          </div>
-          <p>
-            එදා ඒ පුංචි බිරියානි හොටෙල් එකේදී අපි හමු වුණු මොහොත... ඔයා මං දිහා බලලා ලස්සනට සිනාසුණු විදිහ මට තාමත් මතකයි.
-          </p>
-          <p>
-            ඒ සිනහවෙන් තමා මගේ මුළු ලෝකයම වෙනස් වුණේ. දෙන්නත් එක්ක කතා කර කර බිරියානි කෑව ඒ මොහොත මුළු ජීවිතයටම අමතක වෙන්නේ නැහැ.
-          </p>
-          <p class="pull">“ඒක නිකම්ම නිකම් කෑම වේලක් නෙවෙයි... අපේ ආදර කතාවේ ලස්සනම ඇරඹුම.”</p>
-        </article>
-      </section>
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
 
-      <!-- Page 3: Chapter 2 -->
-      <section class="page page--wide" data-page="2" aria-labelledby="page-title-3">
-        <figure class="banner tilt">
-          <img
-            src="chapter-2.png"
-            alt="හිරු බැස යන මුහුදු පාරක anime යුවළක් ක්ලැසික් මෝටර් බයිසිකලයක ගමන් කරති."
-          />
-        </figure>
-        <article class="copy copy--center">
-          <p class="chapter-num">Page 03 · Chapter II</p>
-          <h2 id="page-title-3">Sunset Ride & Tea</h2>
-          <div class="lang-subtitles">
-            <span>බයික් එකේ යාම සහ තේ කඩය</span> • <span>பைக் பயணம் மற்றும் தேனீர் கடை</span>
-          </div>
-          <p>
-            හවස ඉර බැහැගෙන යද්දී මුහුදු පාර දිගේ බයික් එකේ ගියපු ඒ ලස්සන ගමන... ඔයා මගේ උරහිස අල්ලාගෙන හිටපු විදිහ මට හරිම විශේෂයි.
-          </p>
-          <p>
-            පාර අයිනේ පුංචි තේ කඩයෙන් උණුසුම් තේ කෝප්පයක් බොන ගමන්, රැළි වදින දිහා බලාගෙන අපි දෙන්නා හිටපු ඒ මොහොත හදවතට මාරම සහනයක් දුන්නා.
-          </p>
-          <p class="pull">“මුහුදු සුළඟ අතරින් ගලා ගිය අපේ ආදරේ...”</p>
-        </article>
-      </section>
+button,
+input {
+  font: inherit;
+}
 
-      <!-- Page 4: Chapter 3 -->
-      <section class="page page--split page--reverse" data-page="3" aria-labelledby="page-title-4">
-        <figure class="photo photo--square tilt">
-          <img
-            src="chapter-3.png"
-            alt="ගැහැණු අතකින් රඳවාගත් දුඹුරු කඩදාසි තෑගි බෑගයක්. ඇතුළේ චොකලට් සහ නමන ලද කඩදාසියක්."
-          />
-        </figure>
-        <article class="copy">
-          <p class="chapter-num">Page 04 · Chapter III</p>
-          <h2 id="page-title-4">The Chocolate Surprise</h2>
-          <div class="lang-subtitles">
-            <span>චොකලට් Surprise එක සහ ගෙදර ගාව</span> • <span>சாக்லேட் ஆச்சரியம்</span>
-          </div>
-          <p>
-            ඔයාගේ ගෙදර ගාවදී මං දුන්නු ඒ චොකලට් මල්ල... ඒක ඇතුළේ තිබුණු කොළ කෑල්ලේ ලියපු Phone Number එක දැකලා ඔයාගේ මූණේ ඇඳුණු ලස්සන හිනාව මට තාමත් පෙනෙනවා.
-          </p>
-          <p>
-            ඔයා ආස කරන පුංචි පුංචි දේවල් පවා මතක තියාගෙන තෑගි දෙන්න ලැබුණු එක මගේ හිතට ගෙනාවේ ලොකු සතුටක්.
-          </p>
-          <p class="pull">“චොකලට් වලටත් වඩා මිහිරි ආදරයක් එතන තිබුණා...”</p>
-        </article>
-      </section>
+button {
+  cursor: pointer;
+}
 
-      <!-- Page 5: Chapter 4 -->
-      <section class="page page--finale" data-page="4" aria-labelledby="page-title-5">
-        <figure class="banner tilt">
-          <img
-            src="chapter-4.png"
-            alt="අඳුරු නිදන කාමරයක කොට්ටයක් මත ස්මාර්ට්ෆෝනයක්. තිරයේ හරිත චැට් එකක් සහ හදවත් ඉමෝජි පෙනේ."
-          />
-        </figure>
-        <article class="copy copy--center">
-          <p class="chapter-num">Page 05 · Chapter IV</p>
-          <h2 id="page-title-5">Late Night Conversations</h2>
-          <div class="lang-subtitles">
-            <span>රෑ ජාමයේ නොකියූ ආදරය</span> • <span>இரவு நேர உரையாடல்</span>
-          </div>
-          <p>
-            රෑ නිහඬ වෙද්දී Phone එකේ දිලිසෙන කොළ පාට Chat එක... අපි දෙන්නා අනාගතය ගැන, අපේ හිත්වල තිබුණු හැඟීම් ගැන පැය ගණන් කතා කළා.
-          </p>
-          <p>
-            වචනවලින් කියනවට වඩා හදවතින් විඳින මේ ආදරය මගේ ජීවිතේ ලැබුණු ලස්සනම ආශීර්වාදයක්.
-          </p>
-          <p class="pull">“හදවතට විතරක් දැනෙන, නිහඬ ලස්සන ආදරයක්...”</p>
-        </article>
-      </section>
+button:disabled {
+  cursor: not-allowed;
+}
 
-      <!-- Page 6: Final Scene (Renamed to final-video.mp4) -->
-      <section class="page page--video" data-page="5" aria-labelledby="page-title-6">
-        <div class="finale-stage">
-          <div class="finale-glow finale-glow--one" aria-hidden="true"></div>
-          <div class="finale-glow finale-glow--two" aria-hidden="true"></div>
-          <div class="finale-petals" aria-hidden="true"><span>♡</span><span>✦</span><span>♡</span></div>
-          <div class="video-container">
-            <video
-              id="finale-video"
-              controls
-              playsinline
-              preload="metadata"
-              aria-labelledby="page-title-6"
-            >
-              <source src="final-video.mp4" type="video/mp4" />
-              ඔයාගේ Browser එකෙන් මේ Video එක Play කරන්න සහාය දක්වන්නේ නැත.
-            </video>
-          </div>
-          <p class="media-status" id="media-status" role="status" aria-live="polite"></p>
-          <article class="copy copy--center video-caption">
-            <p class="chapter-num">Page 06 · Final Chapter</p>
-            <h2 id="page-title-6">Our Story Continues</h2>
-            <div class="lang-subtitles">
-              <span>අපේ කතාව තවමත් ලියවෙමින්...</span> • <span>நமது கதை இன்னும் எழுதப்படுகிறது...</span>
-            </div>
-            <p class="finale-line">"ඔයා මගේ හදවතේ නිහඬම, ලස්සනම ගීතය... ❤️"</p>
-            <p class="end-mark">Forever in my heart...</p>
-          </article>
-        </div>
-      </section>
-    </main>
+.grain,
+.vignette,
+.orbs,
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
 
-    <!-- Pagination Controls -->
-    <div class="pager" id="pager">
-      <button class="btn-3d btn-ghost" id="back-btn" type="button" disabled>Back</button>
-      <p class="pager-count" id="pager-count" aria-live="polite">1 / 6</p>
-      <button class="btn-3d" id="next-btn" type="button">Next</button>
-    </div>
+.orbs {
+  z-index: 0;
+  overflow: hidden;
+}
 
-    <script src="script.js"></script>
-  </body>
-</html>
+.orbs span {
+  position: absolute;
+  width: clamp(12rem, 28vw, 30rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(4rem);
+  opacity: 0.7;
+  animation: drift 16s ease-in-out infinite;
+}
+
+.orbs span:nth-child(1) {
+  left: -10%;
+  top: 8%;
+  background: rgba(212, 165, 116, 0.18);
+}
+
+.orbs span:nth-child(2) {
+  right: -8%;
+  bottom: 4%;
+  background: rgba(184, 92, 114, 0.17);
+  animation-delay: -5s;
+}
+
+.orbs span:nth-child(3) {
+  left: 42%;
+  top: -12%;
+  width: clamp(9rem, 18vw, 18rem);
+  background: rgba(248, 232, 208, 0.1);
+  animation-delay: -10s;
+}
+
+@keyframes drift {
+  50% {
+    transform: translate3d(4%, 7%, 40px) scale(1.12);
+  }
+}
+
+.hearts {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.hearts span {
+  position: absolute;
+  bottom: -10%;
+  color: rgba(240, 170, 184, 0.3);
+  font-family: var(--font-en);
+  line-height: 1;
+  filter: drop-shadow(0 0 0.6rem rgba(184, 92, 114, 0.25));
+  animation: rise-heart linear infinite;
+}
+
+@keyframes rise-heart {
+  to {
+    opacity: 0;
+    transform: translate3d(1.25rem, -115vh, 5rem) rotate(25deg);
+  }
+}
+
+.grain {
+  z-index: 6;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+.vignette {
+  z-index: 7;
+  box-shadow: inset 0 0 12rem 3rem rgba(0, 0, 0, 0.6);
+}
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  place-items: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 35%, rgba(91, 31, 51, 0.35), rgba(13, 9, 7, 0.92) 70%);
+}
+
+body.is-locked .gate {
+  display: grid;
+}
+
+body.is-locked .nav,
+body.is-locked .book,
+body.is-locked .pager {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-card {
+  position: relative;
+  width: min(27rem, 100%);
+  padding: 2.8rem 2rem 2.3rem;
+  text-align: center;
+  border: 1px solid var(--line-bright);
+  border-radius: 1.6rem;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(240, 170, 184, 0.18), transparent 52%),
+    linear-gradient(155deg, rgba(61, 28, 37, 0.96), rgba(14, 8, 8, 0.96));
+  box-shadow: var(--shadow-deep), 0 0 3rem rgba(212, 165, 116, 0.12), inset 0 1px 0 rgba(255, 244, 224, 0.2);
+  transform-style: preserve-3d;
+  animation: float-card 6s ease-in-out infinite;
+}
+
+.gate-card::before,
+.gate-card::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gate-card::before {
+  inset: 0.55rem;
+  border: 1px solid rgba(240, 170, 184, 0.13);
+}
+
+.gate-card::after {
+  width: 7rem;
+  height: 7rem;
+  left: 50%;
+  top: -4rem;
+  transform: translateX(-50%);
+  background: rgba(240, 170, 184, 0.2);
+  filter: blur(2.5rem);
+}
+
+@keyframes float-card {
+  50% {
+    transform: translateY(-0.55rem) rotateX(3deg);
+  }
+}
+
+.gate-card h2,
+h1,
+h2 {
+  font-family: var(--font-si);
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0 0 0.8rem;
+}
+
+.gate-card h2 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+}
+
+.gate-copy,
+.lede,
+.copy p {
+  color: rgba(244, 232, 214, 0.86);
+  font-weight: 300;
+}
+
+.gate-copy {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto 1.45rem;
+  max-width: 23rem;
+}
+
+.eyebrow,
+.chapter-num,
+.end-mark,
+.pager-count {
+  font-family: var(--font-en);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-style: italic;
+  margin: 0 0 0.55rem;
+}
+
+.gate-form {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.55rem;
+  text-align: left;
+}
+
+.gate-form label {
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.gate-form input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(212, 165, 116, 0.42);
+  border-radius: 0.85rem;
+  outline: 0;
+  background: rgba(8, 5, 3, 0.76);
+  color: var(--cream);
+  font-size: 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.gate-form input:hover,
+.gate-form input:focus {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 0.2rem rgba(212, 165, 116, 0.13), 0 0.8rem 2rem rgba(0, 0, 0, 0.26);
+  transform: translateZ(0.8rem);
+}
+
+.gate-hint {
+  margin: 0.15rem 0 0.2rem;
+  font-size: 0.88rem;
+  color: var(--gold-soft);
+}
+
+.gate-error {
+  margin: 0;
+  color: #ffb7aa;
+  font-size: 0.9rem;
+}
+
+.btn-3d {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  margin-top: 0.35rem;
+  padding: 0.78rem 1.45rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 0.55rem 0 #855c38, 0 1.1rem 1.8rem rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  transform: translateY(0) translateZ(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-3d:hover {
+  filter: brightness(1.07);
+}
+
+.btn-3d:active {
+  transform: translateY(0.38rem);
+  box-shadow: 0 0.15rem 0 #855c38, 0 0.5rem 1rem rgba(0, 0, 0, 0.28);
+}
+
+.btn-3d:disabled {
+  opacity: 0.42;
+  filter: saturate(0.55);
+  box-shadow: 0 0.3rem 0 #5a3d28;
+}
+
+.btn-ghost {
+  background: rgba(13, 9, 7, 0.35);
+  color: var(--gold-soft);
+  border: 1px solid rgba(212, 165, 116, 0.45);
+  box-shadow: 0 0.45rem 0 rgba(90, 60, 40, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+:where(.btn-3d, .nav-mark, .nav-links button, #gate-pass, .video-container):focus-visible {
+  outline: 2px solid var(--blush);
+  outline-offset: 4px;
+}
+
+.page :focus-visible {
+  position: relative;
+  z-index: 8;
+}
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--nav-height);
+  padding: 0.9rem clamp(1.1rem, 5vw, 4rem);
+  background: linear-gradient(180deg, rgba(13, 9, 7, 0.76), rgba(13, 9, 7, 0));
+}
+
+.nav-mark,
+.nav-links button {
+  border: 0;
+  color: var(--gold-soft);
+  background: none;
+}
+
+.nav-mark {
+  padding: 0.35rem 0.2rem;
+  font-family: var(--font-si);
+  font-size: 0.95rem;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.nav-links button {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid rgba(212, 165, 116, 0.35);
+  border-radius: 50%;
+  color: var(--cream);
+  font-family: var(--font-en);
+  font-size: 1rem;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-links button.is-active {
+  background: linear-gradient(145deg, var(--gold-bright), var(--gold));
+  color: var(--ink);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 1.2rem rgba(212, 165, 116, 0.25);
+}
+
+.nav-links button[aria-disabled="true"] {
+  opacity: 0.5;
+}
+
+.book {
+  position: relative;
+  height: 100dvh;
+  transform-style: preserve-3d;
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: auto;
+  padding: calc(var(--nav-height) + 1.2rem) clamp(1.2rem, 6vw, 6rem) calc(var(--pager-height) + 1.2rem);
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(184, 92, 114, 0.12), transparent 30%),
+    radial-gradient(circle at 84% 84%, rgba(212, 165, 116, 0.08), transparent 36%),
+    linear-gradient(145deg, #1e1110 0%, #0d0907 60%, #160b10 100%);
+  transform: translate3d(2.5rem, 0, -5rem) rotateY(-18deg) scale(0.94);
+  transform-origin: left center;
+  transition: opacity 0.7s ease, transform 0.85s var(--ease-out);
+}
+
+.page.is-active {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0) rotateY(0) scale(1);
+}
+
+.page.is-leave {
+  opacity: 0;
+  transform: translate3d(-3rem, 0, -5rem) rotateY(16deg) scale(0.94);
+}
+
+.page--hero {
+  display: grid;
+  place-items: end start;
+  padding: 0;
+  overflow: hidden;
+  background: #170d0c;
+}
+
+.page--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.page--reverse {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  background:
+    radial-gradient(circle at 82% 20%, rgba(184, 92, 114, 0.16), transparent 32%),
+    linear-gradient(130deg, #120a0b, #261116 58%, #100909);
+}
+
+.page--reverse .photo {
+  order: 2;
+}
+
+.page--wide,
+.page--finale {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  background:
+    radial-gradient(ellipse at 50% 10%, rgba(212, 165, 116, 0.14), transparent 38%),
+    linear-gradient(180deg, #1b100d, #0d0907 70%, #1e0e17);
+}
+
+.page--finale {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(240, 170, 184, 0.16), transparent 34%),
+    linear-gradient(145deg, #180b11, #0e0908 60%, #281016);
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+  filter: saturate(0.94) contrast(1.04);
+  animation: ken 20s ease-in-out infinite alternate;
+}
+
+@keyframes ken {
+  to {
+    transform: scale(1.07) translate3d(-1%, -1%, 0);
+  }
+}
+
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 5, 3, 0.14), rgba(8, 5, 3, 0.92) 88%),
+    linear-gradient(90deg, rgba(8, 5, 3, 0.7), transparent 64%),
+    radial-gradient(circle at 70% 30%, transparent 0 22%, rgba(8, 5, 3, 0.25) 80%);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 40rem;
+  padding: 0 clamp(1.4rem, 8vw, 8rem) clamp(7.5rem, 15vh, 10rem);
+  animation: rise-in 0.9s var(--ease-out) both;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  text-wrap: balance;
+}
+
+.sub-title-si,
+.sub-title-ta {
+  margin: -0.35rem 0 0;
+  line-height: 1.35;
+}
+
+.sub-title-si {
+  color: var(--champagne);
+  font-family: var(--font-si);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+}
+
+.sub-title-ta {
+  color: var(--blush);
+  font-family: var(--font-si-ui);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+}
+
+.lang-subtitles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: inherit;
+  gap: 0.4rem;
+  margin: -0.25rem 0 1.25rem;
+  color: var(--blush);
+  font-family: var(--font-si-ui);
+  font-size: clamp(0.78rem, 1.2vw, 0.92rem);
+  line-height: 1.55;
+}
+
+.lang-subtitles span[lang="ta"] {
+  color: var(--gold-soft);
+}
+
+.copy--center .lang-subtitles {
+  justify-content: center;
+}
+
+.lede {
+  max-width: 34rem;
+  margin: 0;
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.75rem, -2.5rem);
+  }
+}
+
+.photo,
+.banner {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(248, 232, 208, 0.24);
+  border-radius: 1.35rem;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-card);
+  transform-style: preserve-3d;
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), border-color 0.45s ease;
+}
+
+.photo::before,
+.banner::before {
+  position: absolute;
+  inset: 0.45rem;
+  z-index: 2;
+  content: "";
+  border: 1px solid rgba(248, 232, 208, 0.16);
+  border-radius: 0.95rem;
+  pointer-events: none;
+}
+
+.photo::after,
+.banner::after {
+  position: absolute;
+  inset: auto 10% 0;
+  z-index: 2;
+  height: 28%;
+  content: "";
+  background: linear-gradient(transparent, rgba(13, 9, 7, 0.28));
+  pointer-events: none;
+}
+
+.photo img,
+.banner img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out), filter 0.8s ease;
+}
+
+.photo {
+  width: min(100%, 38rem);
+}
+
+.photo img {
+  aspect-ratio: 4 / 5;
+}
+
+.photo--square img {
+  aspect-ratio: 1 / 1;
+}
+
+.banner {
+  width: min(66rem, 100%);
+}
+
+.banner img {
+  aspect-ratio: 16 / 9;
+}
+
+.copy {
+  max-width: 38rem;
+}
+
+.copy--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.chapter-num {
+  margin: 0 0 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.copy h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--champagne);
+  margin-bottom: 0.5rem;
+}
+
+.copy p {
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.pull {
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid var(--gold);
+  background: rgba(212, 165, 116, 0.08);
+  border-radius: 0 0.8rem 0.8rem 0;
+  color: var(--gold-bright);
+  font-family: var(--font-si);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+
+/* Page 6 & Video / Finale Styling */
+.page--video {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(91, 31, 51, 0.4), transparent 70%),
+    linear-gradient(180deg, #180b11, #0d0907 80%);
+}
+
+.finale-stage {
+  position: relative;
+  width: min(52rem, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.finale-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(4rem);
+  opacity: 0.4;
+}
+
+.finale-glow--one {
+  width: 20rem;
+  height: 20rem;
+  top: -10%;
+  background: var(--rose);
+}
+
+.finale-glow--two {
+  width: 25rem;
+  height: 25rem;
+  bottom: 0;
+  background: var(--gold);
+}
+
+.finale-petals {
+  position: absolute;
+  top: -2rem;
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--blush);
+  animation: pulse-petals 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-petals {
+  0% { transform: scale(0.9) translateY(0); opacity: 0.6; }
+  100% { transform: scale(1.1) translateY(-6px); opacity: 1; }
+}
+
+.video-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 44rem;
+  aspect-ratio: 16 / 9;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid var(--line-bright);
+  box-shadow: var(--shadow-deep), var(--shadow-glow);
+  background: var(--night);
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-status {
+  position: relative;
+  z-index: 3;
+  min-height: 1.5rem;
+  margin: 0.8rem 0 0;
+  font-size: 0.9rem;
+  color: var(--gold-soft);
+  font-style: italic;
+}
+
+.video-caption {
+  position: relative;
+  z-index: 3;
+  margin-top: 1.2rem;
+}
+
+.finale-line {
+  font-family: var(--font-si);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--champagne);
+  margin: 0.8rem 0 0.3rem;
+}
+
+.end-mark {
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+
+.thank-you-msg {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--rose), var(--wine));
+  border: 1px solid var(--blush);
+  color: var(--champagne);
+  font-family: var(--font-si);
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 0.5rem 1.5rem rgba(184, 92, 114, 0.4);
+  animation: pop-in 0.5s var(--ease-out) forwards;
+}
+
+.thank-you-msg[hidden] {
+  display: none !important;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Pagination Control Bar */
+.pager {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--pager-height);
+  padding: 0.6rem clamp(1.2rem, 5vw, 4rem);
+  background: linear-gradient(0deg, rgba(13, 9, 7, 0.92), rgba(13, 9, 7, 0));
+}
+
+.pager-count {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Completed Story Button Styling */
+body.is-finished .btn-3d#next-btn {
+  background: linear-gradient(180deg, var(--blush), var(--rose));
+  color: #fff;
+  box-shadow: 0 0.55rem 0 #7a3245, 0 1.1rem 1.8rem rgba(0, 0, 0, 0.35);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 860px) {
+  .page--split,
+  .page--reverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .page--reverse .photo {
+    order: 0;
+  }
+
+  .photo {
+    width: 100%;
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+
+  .hero-copy {
+    padding-bottom: clamp(6rem, 12vh, 8rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 0.25rem;
+  }
+
+  .nav-links button {
+    width: 1.85rem;
+    height: 1.85rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-mark {
+    font-size: 0.85rem;
+  }
+
+  .btn-3d {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .orbs span,
+  .hearts span,
+  .hero-img,
+  .gate-card,
+  .finale-petals {
+    animation: none !important;
+  }
+
+  .page {
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+  }
+
+  .page.is-active,
+  .page.is-leave {
+    transform: none !important;
+  }
+}
