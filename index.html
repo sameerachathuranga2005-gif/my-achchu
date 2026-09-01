@@ -1,138 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Story</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <!-- Background Effects -->
-  <div class="orbs">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-  <div class="grain"></div>
-  <div class="vignette"></div>
-  <div class="hearts"></div>
+<html lang="si">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unspoken Love | නොකියූ ආදරය | சொல்லப்படாத காதல்</title>
+    <meta
+      name="description"
+      content="බිරියානි හොටෙල් එකකින් පටන් ගත්, තේ කඩයකින් ගලා ගිය, චොකලට් බෑගයක සැඟවුණු නොකියූ ආදර කතාවක්."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Sans+Tamil:wght@400;500&family=Noto+Serif+Sinhala:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="is-locked">
+    <!-- Background Audio -->
+    <audio id="bg-music" src="I Think They Call This Love (Cover).mp3" loop></audio>
 
-  <!-- Gate / Password Screen -->
-  <div class="gate" id="gate">
-    <div class="gate-card">
-      <h2>Welcome</h2>
-      <p class="gate-copy">Enter the password to continue</p>
-      <form class="gate-form" id="gate-form">
-        <label for="gate-pass">Password</label>
-        <input type="password" id="gate-pass" placeholder="Enter password" required>
-        <p class="gate-hint">Hint: Name of a dear friend</p>
-        <p class="gate-error" id="gate-error"></p>
-        <button type="submit" class="btn-3d">Enter</button>
-      </form>
+    <div class="orbs" aria-hidden="true">
+      <span></span><span></span><span></span>
     </div>
-  </div>
+    <div class="hearts" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
 
-  <!-- Navigation -->
-  <nav class="nav">
-    <div class="nav-mark">Story</div>
-    <div class="nav-links">
-      <button data-goto="0" aria-label="Open story chapter 1">1</button>
-      <button data-goto="1" aria-label="Open story chapter 2">2</button>
-      <button data-goto="2" aria-label="Open story chapter 3">3</button>
-      <button data-goto="3" aria-label="Open story chapter 4">4</button>
-      <button data-goto="4" aria-label="Open story chapter 5">5</button>
-      <button data-goto="5" aria-label="Open story chapter 6">6</button>
-    </div>
-  </nav>
-
-  <!-- Book Container -->
-  <div class="book">
-    <!-- Page 1 -->
-    <div class="page page--hero is-active">
-      <img src="https://via.placeholder.com/800x600" alt="Cover" class="hero-img">
-      <div class="hero-shade"></div>
-      <div class="hero-copy">
-        <h1>Story Title</h1>
-        <p class="lede">Welcome to the journey. Click next to continue.</p>
+    <!-- Password Gate Modal -->
+    <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+      <div class="gate-card tilt">
+        <p class="eyebrow">A cinematic love story</p>
+        <h2 id="gate-title">නොකියූ ආදරය</h2>
+        <p class="gate-copy">කතාවට යන්න password එක දාලා Next එක ඔබන්න.</p>
+        <form id="gate-form" class="gate-form" autocomplete="off">
+          <label for="gate-pass">Password</label>
+          <input
+            id="gate-pass"
+            type="password"
+            name="password"
+            required
+            autofocus
+            autocomplete="current-password"
+            spellcheck="false"
+            aria-describedby="gate-hint gate-error"
+          />
+          <p class="gate-hint" id="gate-hint">Hint: ඒක මගේ නම — my name.</p>
+          <p class="gate-error" id="gate-error" role="status" aria-live="polite" hidden>Password එක වැරදියි. ආයෙත් උත්සාහ කරන්න.</p>
+          <button class="btn-3d" type="submit">Next</button>
+        </form>
       </div>
     </div>
 
-    <!-- Page 2 -->
-    <div class="page page--split">
-      <div class="copy">
-        <p class="eyebrow">Chapter 1</p>
-        <h2>Beginning</h2>
-        <p>This is where the story begins. Feel the emotions, experience the moments.</p>
-      </div>
-      <img src="https://via.placeholder.com/400x500" alt="Chapter 1" class="photo">
-    </div>
+    <!-- Navigation Header -->
+    <header class="nav">
+      <button class="nav-mark" type="button" data-goto="0" aria-label="Return to the beginning of the story">නොකියූ ආදරය</button>
+      <nav class="nav-links" aria-label="Story chapters">
+        <button type="button" data-goto="0">1</button>
+        <button type="button" data-goto="1">2</button>
+        <button type="button" data-goto="2">3</button>
+        <button type="button" data-goto="3">4</button>
+        <button type="button" data-goto="4">5</button>
+        <button type="button" data-goto="5">6</button>
+      </nav>
+    </header>
 
-    <!-- Page 3 -->
-    <div class="page page--split page--reverse">
-      <div class="copy">
-        <p class="eyebrow">Chapter 2</p>
-        <h2>Development</h2>
-        <p>The story unfolds with beautiful moments and cherished memories.</p>
-      </div>
-      <img src="https://via.placeholder.com/400x500" alt="Chapter 2" class="photo">
-    </div>
-
-    <!-- Page 4 -->
-    <div class="page page--wide">
-      <div class="copy copy--center">
-        <p class="eyebrow">Chapter 3</p>
-        <h2>Rising</h2>
-        <p class="lede">Emotions build as the narrative progresses deeper into the heart of the story.</p>
-      </div>
-      <img src="https://via.placeholder.com/800x600" alt="Chapter 3" class="banner">
-    </div>
-
-    <!-- Page 5 -->
-    <div class="page page--split">
-      <div class="copy">
-        <p class="eyebrow">Chapter 4</p>
-        <h2>Climax</h2>
-        <p>The moment of truth arrives, bringing everything together in a crescendo of emotion.</p>
-        <p class="pull">A special moment, beautifully remembered.</p>
-      </div>
-      <img src="https://via.placeholder.com/400x500" alt="Chapter 4" class="photo">
-    </div>
-
-    <!-- Page 6 - Video/Finale -->
-    <div class="page page--video page--finale">
-      <div class="finale-stage">
-        <div class="finale-petals">🌹 💕 🌹</div>
-        <div class="finale-glow finale-glow--one"></div>
-        <div class="finale-glow finale-glow--two"></div>
-        <div class="video-container">
-          <video id="finale-video" controls>
-            <source src="video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+    <!-- Main Book Container -->
+    <main class="book" id="book" aria-label="A six-chapter love story">
+      <!-- Page 1: Hero -->
+      <section class="page page--hero is-active" data-page="0" aria-labelledby="page-title-1">
+        <img
+          class="hero-img"
+          src="hero.png"
+          alt="රන්වන් ආලෝකයේ ලී මේසයක් මත තරුණයන් දෙදෙනෙකුගේ අත් මෘදුව ස්පර්ශ වී ඇත."
+        />
+        <div class="hero-shade"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Page 01 · A cinematic love story</p>
+          <h1 id="page-title-1">Unspoken Love</h1>
+          <p class="sub-title-si" lang="si">නොකියූ ආදරය</p>
+          <p class="sub-title-ta" lang="ta">சொல்லப்படாத காதல்</p>
+          <p class="lede">
+            අත් දෙකක් හමුවුණු තැනින් මේ කතාව පටන් ගත්තා.
+            බිරියානි සුවඳ, මුහුදු සුළඟ, සහ යවන්න බැරි වූ පණිවිඩයක්.
+          </p>
         </div>
-        <div id="media-status" class="media-status"></div>
-        <div class="video-caption">
-          <p class="finale-line">Closing Thoughts</p>
-          <p class="end-mark">THE END</p>
-          <div id="thank-you" class="thank-you-msg">Thank You 💕</div>
+      </section>
+
+      <!-- Page 2: Chapter 1 -->
+      <section class="page page--split" data-page="1" aria-labelledby="page-title-2">
+        <figure class="photo tilt">
+          <img
+            src="chapter-1.png"
+            alt="උණුසුම් ආලෝකය ඇති සාම්ප්‍රදායික ශ්‍රී ලාංකික අවන්හලක යුවළක් සිනාසෙමින් බලා සිටිති."
+          />
+        </figure>
+        <article class="copy">
+          <p class="chapter-num">Page 02 · Chapter I</p>
+          <h2 id="page-title-2">The Biryani Encounter</h2>
+          <div class="lang-subtitles">
+            <span lang="si">බිරියානි හෝටලයේ හමුවීම</span> • <span lang="ta">பிரியாணி கடையில் சந்திப்பு</span>
+          </div>
+          <p>
+            ඒ දවසේ හිරු එළිය රන් පාටින් ඇතුළට ආවා. කුඩා හෝටලයේ
+            බිරියානි සුවඳ පැතිරුණා. මේසය මත ලොකු බිරියානි පිඟානක් තිබුණා.
+          </p>
+          <p>
+            ඇය ඔහු දිහා බැලුවා. ඔහු හිනා වුණා. ඒ පුංචි මොහොතෙන්
+            දෙන්නාගේ හිතට සතුටක් දැනුණා.
+          </p>
+          <p class="pull">“මේක කෑමක් විතරක් නෙවෙයි. මේක අපේ කතාවේ මුලයි.”</p>
+        </article>
+      </section>
+
+      <!-- Page 3: Chapter 2 -->
+      <section class="page page--wide" data-page="2" aria-labelledby="page-title-3">
+        <figure class="banner tilt">
+          <img
+            src="chapter-2.png"
+            alt="හිරු බැස යන මුහුදු පාරක anime යුවළක් ක්ලැසික් මෝටර් බයිසිකලයක ගමන් කරති."
+          />
+        </figure>
+        <article class="copy copy--center">
+          <p class="chapter-num">Page 03 · Chapter II</p>
+          <h2 id="page-title-3">Sunset Ride & Tea</h2>
+          <div class="lang-subtitles">
+            <span lang="si">හිරු බැස යන වෙලාවේ බයික් ගමන සහ තේ</span> • <span lang="ta">மாலைப் பயணமும் தேநீரும்</span>
+          </div>
+          <p>
+            නගරයෙන් පිට ගිය විට මුහුදු සුළඟ අපිට දැනුණා. ඇය බයික් එකේ
+            ඔහුගේ උරහිස අල්ලාගෙන ගියා. ඉදිරියේ මුහුදත්, උඩින් රන්වන් හිරුත් තිබුණා.
+          </p>
+          <p>
+            තේ කඩයක් ළඟ අපි නතර වුණා. දෙන්නා උණුසුම් තේ බිව්වා.
+            එදා දෙන්නාටම තේරුණා — මේ ගමන තව දිගටම යනවා කියලා.
+          </p>
+        </article>
+      </section>
+
+      <!-- Page 4: Chapter 3 -->
+      <section class="page page--split page--reverse" data-page="3" aria-labelledby="page-title-4">
+        <figure class="photo photo--square tilt">
+          <img
+            src="chapter-3.png"
+            alt="ගැහැණු අතකින් රඳවාගත් දුඹුරු කඩදාසි තෑගි බෑගයක්. ඇතුළේ චොකලට් සහ නමන ලද කඩදාසියක්."
+          />
+        </figure>
+        <article class="copy">
+          <p class="chapter-num">Page 04 · Chapter III</p>
+          <h2 id="page-title-4">The Chocolate Surprise</h2>
+          <div class="lang-subtitles">
+            <span lang="si">චොකලට් තෑග්ග</span> • <span lang="ta">சாக்லேட் பரிசு</span>
+          </div>
+          <p>
+            රාත්‍රියේ වීදි ලාම්පු කහ පාටින් දිලිසුණා. ගෙදර ළඟදී
+            ඔහු ඇයට දුඹුරු තෑගි බෑගයක් දුන්නා. ඒක ඇතුළේ චොකලට් සහ
+            පොඩි කඩදාසියක් තිබුණා.
+          </p>
+          <p>ඇය කඩදාසිය අරින්න ටිකක් බය වුණා. ඒක ලස්සන ආරාධනාවක්.</p>
+          <p class="pull">සමහර තෑගිවල චොකලට්වලට වඩා මිහිරි දෙයක් තියෙනවා.</p>
+        </article>
+      </section>
+
+      <!-- Page 5: Chapter 4 -->
+      <section class="page page--finale" data-page="4" aria-labelledby="page-title-5">
+        <figure class="banner tilt">
+          <img
+            src="chapter-4.png"
+            alt="අඳුරු නිදන කාමරයක කොට්ටයක් මත ස්මාර්ට්ෆෝනයක්. තිරයේ හරිත චැට් එකක් සහ හදවත් ඉමෝජි පෙනේ."
+          />
+        </figure>
+        <article class="copy copy--center">
+          <p class="chapter-num">Page 05 · Chapter IV</p>
+          <h2 id="page-title-5">Late Night Conversations</h2>
+          <div class="lang-subtitles">
+            <span lang="si">රෑ වෙලාවේ පණිවිඩ</span> • <span lang="ta">இரவு நேர செய்திகள்</span>
+          </div>
+          <p>
+            රාත්‍රිය නිහඬයි. කොට්ටය මත දුරකථනය දිලිසෙනවා.
+            චැට් එකේ හදවත් තිබුණා. ඒත් යවන්න බැරි වූ වාක්‍යයක්ද තිබුණා.
+          </p>
+          <p class="pull">සමහර ආදර කතා වචන නැතිවම හිතට දැනෙනවා.</p>
+        </article>
+      </section>
+
+      <!-- Page 6: The final scene -->
+      <section class="page page--video" data-page="5" aria-labelledby="page-title-6">
+        <div class="finale-stage">
+          <div class="finale-glow finale-glow--one" aria-hidden="true"></div>
+          <div class="finale-glow finale-glow--two" aria-hidden="true"></div>
+          <div class="finale-petals" aria-hidden="true"><span>♡</span><span>✦</span><span>♡</span></div>
+          <div class="video-container">
+            <div id="finale-video"></div>
+          </div>
+          <p class="media-status" id="media-status" role="status" aria-live="polite"></p>
+          <article class="copy copy--center video-caption">
+            <p class="chapter-num">Page 06 · Final Chapter</p>
+            <h2 id="page-title-6">Our Story Continues</h2>
+            <div class="lang-subtitles">
+              <span lang="si">අපේ කතාව තවමත් යනවා</span> • <span lang="ta">நமது கதை இன்னும் தொடர்கிறது</span>
+            </div>
+            <p class="finale-line" lang="si">ඔයා මගේ හිතේ ලස්සනම ගීතය.</p>
+            <p class="finale-line finale-line--ta" lang="ta">நீ என் இதயத்தின் அழகான பாடல்.</p>
+            <p class="end-mark">Forever in my heart...</p>
+            <p class="thank-you" id="thank-you" hidden>Thanks for being here. ♡</p>
+          </article>
         </div>
-      </div>
+      </section>
+    </main>
+
+    <!-- Pagination Controls -->
+    <div class="pager" id="pager">
+      <button class="btn-3d btn-ghost" id="back-btn" type="button" disabled>Back</button>
+      <p class="pager-count" id="pager-count" aria-live="polite">1 / 6</p>
+      <button class="btn-3d" id="next-btn" type="button">Next</button>
     </div>
-  </div>
 
-  <!-- Pagination Controls -->
-  <div class="pager">
-    <button id="back-btn" class="btn-3d btn-ghost">Back</button>
-    <span id="pager-count" class="pager-count">1 / 6</span>
-    <button id="next-btn" class="btn-3d">Next</button>
-  </div>
-
-  <!-- Audio -->
-  <audio id="bg-music" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
-
