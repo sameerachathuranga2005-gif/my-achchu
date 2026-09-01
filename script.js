@@ -1,6 +1,7 @@
 const PASSWORD = "sameera";
 const TOTAL = 6;
-const COOLDOWN_MS = 5000; // තත්පර 5ක Cooldown එක නැවත එකතු කරන ලදී
+const COOLDOWN_MS = 5000;
+const YOUTUBE_VIDEO_ID = "8sPeScHtQEk";
 
 const html = document.documentElement;
 const body = document.body;
@@ -16,7 +17,6 @@ const chapterButtons = [...document.querySelectorAll(".nav-links button")];
 const gotoButtons = [...document.querySelectorAll("[data-goto]")];
 const hearts = document.querySelector(".hearts");
 const bgMusic = document.getElementById("bg-music");
-const finaleVideo = document.getElementById("finale-video");
 const videoCaption = document.querySelector(".video-caption");
 const mediaStatus = document.getElementById("media-status");
 const thankYou = document.getElementById("thank-you");
@@ -31,6 +31,51 @@ let isFinished = false;
 let cooldownTimer = null;
 const reducedMotion = reducedMotionQuery.matches;
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+// ---------- YouTube IFrame API player ----------
+let ytPlayer = null;
+let ytReady = false;
+
+window.onYouTubeIframeAPIReady = function () {
+  const container = document.getElementById("finale-video");
+  if (!container) return;
+  ytPlayer = new YT.Player("finale-video", {
+    videoId: YOUTUBE_VIDEO_ID,
+    playerVars: {
+      rel: 0,
+      modestbranding: 1,
+      playsinline: 1,
+    },
+    events: {
+      onReady: () => {
+        ytReady = true;
+        if (pageIndex === TOTAL - 1 && unlocked) {
+          playFinale();
+        }
+      },
+      onStateChange: (event) => {
+        if (event.data === YT.PlayerState.ENDED) {
+          finaleEnded = true;
+          videoCaption?.classList.add("is-complete");
+          updateControls();
+          setMediaStatus("Video එක ඉවරයි. Thanks button එක ඔබන්න.");
+        }
+      },
+      onError: () => {
+        setMediaStatus("The final scene could not be loaded. Please try again.");
+      },
+    },
+  });
+};
+
+// Load YouTube IFrame API
+(function loadYouTubeAPI() {
+  if (window.YT) return;
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScript = document.getElementsByTagName("script")[0];
+  firstScript.parentNode.insertBefore(tag, firstScript);
+})();
 
 html.classList.add("is-locked");
 
@@ -67,41 +112,35 @@ const setMediaStatus = (message = "") => {
   if (mediaStatus) mediaStatus.textContent = message;
 };
 
-const pauseFinale = (reset = true) => {
-  if (finaleVideo) {
-    finaleVideo.pause();
-    if (reset) finaleVideo.currentTime = 0;
+const pauseFinale = () => {
+  if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === "function") {
+    ytPlayer.pauseVideo();
   }
 };
 
 const playFinale = () => {
-  if (!finaleVideo) return;
-
-  finaleVideo.currentTime = 0;
-  finaleVideo.muted = true; // Video එක Mute කර ඇත
-  finaleVideo.volume = 0;
   finaleEnded = false;
   thanked = false;
-  
-  if (thankYou) thankYou.setAttribute("hidden", "");
+  thankYou?.setAttribute("hidden", "");
   videoCaption?.classList.remove("is-complete");
   setMediaStatus("");
+
+  if (!ytReady || !ytPlayer) {
+    setMediaStatus("Loading video...");
+    return;
+  }
 
   if (reducedMotion) {
     setMediaStatus("Select Play to watch the final scene.");
     return;
   }
 
-  // Video Autoplay Trigger
-  const playPromise = finaleVideo.play();
-  if (playPromise !== undefined) {
-    playPromise
-      .then(() => {
-        setMediaStatus("");
-      })
-      .catch(() => {
-        setMediaStatus("Select Play to begin the final scene.");
-      });
+  try {
+    ytPlayer.seekTo(0, true);
+    ytPlayer.mute();
+    ytPlayer.playVideo();
+  } catch (err) {
+    setMediaStatus("Select play to begin the final scene.");
   }
 };
 
@@ -209,22 +248,20 @@ const completeStory = () => {
   setMediaStatus("Thanks Achchu.");
 };
 
-if (form) {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const value = input.value.trim().toLowerCase();
+form?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const value = input.value.trim().toLowerCase();
 
-    if (value === PASSWORD) {
-      if (errorEl) errorEl.hidden = true;
-      unlock();
-      return;
-    }
+  if (value === PASSWORD) {
+    if (errorEl) errorEl.hidden = true;
+    unlock();
+    return;
+  }
 
-    if (errorEl) errorEl.hidden = false;
-    input.value = "";
-    input.focus();
-  });
-}
+  if (errorEl) errorEl.hidden = false;
+  input.value = "";
+  input.focus();
+});
 
 nextBtn?.addEventListener("click", () => {
   if (pageIndex === TOTAL - 1) {
@@ -250,17 +287,6 @@ gotoButtons
     button.addEventListener("click", () => setPage(0));
   });
 
-finaleVideo?.addEventListener("ended", () => {
-  finaleEnded = true;
-  videoCaption?.classList.add("is-complete");
-  updateControls();
-  setMediaStatus("Video එක ඉවරයි. Thanks button එක ඔබන්න.");
-});
-
-finaleVideo?.addEventListener("error", () => {
-  setMediaStatus("The final scene could not be loaded. Please try again.");
-});
-
 document.addEventListener("keydown", (event) => {
   if (!unlocked || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
 
@@ -270,8 +296,7 @@ document.addEventListener("keydown", (event) => {
     target instanceof HTMLTextAreaElement ||
     target instanceof HTMLSelectElement ||
     target instanceof HTMLButtonElement ||
-    target instanceof HTMLVideoElement ||
-    target.closest("video, audio, form, [contenteditable='true']")
+    target.closest("iframe, audio, form, [contenteditable='true']")
   ) {
     return;
   }
